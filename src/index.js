@@ -1,6 +1,9 @@
 import { add } from "./addition";
 import { sub } from "./sub";
-import "./styles/index.scss";
+import { render } from "react-dom";
+import App from "./components/App";
+
+render(<App />, document.getElementById("root"));
 
 alert("Hello hhhkkkkh");
 console.log(add(1, 2));
