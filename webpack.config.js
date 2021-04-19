@@ -8,13 +8,27 @@ module.exports = {
 	output: {
 		filename: "bundle.js",
 		path: path.resolve(__dirname, "dist"),
+		assetModuleFilename: "images/[hash][ext][query]",
 	},
 	module: {
 		rules: [
 			{
+				test: /\.(png|jpe?g|gif|svg)$/i,
+				type: "asset/resource",
+				//asset/inline -  for small images not for large images as goes into index.js
+				//asset - decides if image if image is inline or seperate
+				// dataUrlCondition: {
+				// 	maxSize: 30 * 1024,
+				// },
+				//decide on max size to make not inline
+			},
+			{
 				test: /\.(s[ac]|c)ss$/i,
 				use: [
-					miniCssExtractPlugin.loader,
+					{
+						loader: miniCssExtractPlugin.loader,
+						options: { publicPath: "" },
+					},
 					"css-loader",
 					"postcss-loader",
 					"sass-loader",
