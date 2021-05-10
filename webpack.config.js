@@ -2,13 +2,28 @@ const path = require("path");
 const miniCssExtractPlugin = require("mini-css-extract-plugin");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
-	//mode: development,
+	mode: "development",
 
-	entry: "./src/index.js",
+	entry: {
+		main: "./src/index.js",
+	},
+	// optimization: {
+	// 	splitChunks: {
+	// 		cacheGroups: {
+	// 			styles: {
+	// 				name: "styles",
+	// 				test: /\.(s[ac]|c)ss$/i,
+	// 				chunks: "all",
+	// 				enforce: true,
+	// 			},
+	// 		},
+	// 	},
+	// },
 	output: {
-		filename: "bundle.js",
+		filename: "[name].bundle.js",
 		path: path.resolve(__dirname, "dist"),
 		assetModuleFilename: "images/[hash][ext][query]",
 	},
@@ -47,8 +62,18 @@ module.exports = {
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
-		new miniCssExtractPlugin(),
-		new htmlWebpackPlugin({ template: "./src/index.html" }),
+		new miniCssExtractPlugin({
+			filename: "style.css",
+			chunkFilename: "[name].css",
+		}),
+
+		new htmlWebpackPlugin({
+			inject: false,
+			template: "./src/index.html",
+			filename: "./index.html",
+			//chunks: ["main"],
+		}),
+		new webpack.HotModuleReplacementPlugin(),
 	],
 
 	resolve: {
@@ -58,6 +83,8 @@ module.exports = {
 
 	devServer: {
 		contentBase: "./dist",
+		open: "Chrome",
+		compress: true,
 		hot: true,
 	},
 };

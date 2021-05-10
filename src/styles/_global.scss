@@ -6,6 +6,16 @@ body {
 	font-size: 10px;
 }
 
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.col {
+	font-size: 4em;
+	color: blue;
+}
+
 main {
 	display: flex;
 	flex-direction: column;
